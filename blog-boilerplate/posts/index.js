@@ -5,25 +5,24 @@ const { randomBytes } = require('crypto');
 const app = express();
 app.use(bodyParser.json());
 
-const post = {};
-
-app.get('/', (req, res) => {
-  res.send('Hello Posts!');
-});
+const posts = {};
 
 app.get('/posts', (req, res) => {
-  // Logic to fetch and return posts
-  res.send(post);
+  res.send(posts);
 });
 
 app.post('/posts', (req, res) => {
-  // Logic to create a new post
   const id = randomBytes(4).toString('hex');
   const { title } = req.body;
-  post[id] = { id, title };
-  res.status(201).send(post[id]);
+
+  posts[id] = {
+    id,
+    title
+  };
+
+  res.status(201).send(posts[id]);
 });
 
 app.listen(4000, () => {
-  console.log('Server is running on port 4000');
+  console.log('Listening on 4000');
 });
