@@ -12,7 +12,6 @@ app.get('', (req, res) => {
 });
 
 app.post('/events', (req, res) => {
-  res.send('Hello Event Bus');
   const event = req.body;
 
   axios.post('http://localhost:4000/events', event).catch((err) => {
