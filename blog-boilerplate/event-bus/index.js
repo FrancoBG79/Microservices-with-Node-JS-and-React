@@ -1,11 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const axios = require('axios');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+
+const events = [];
 
 app.get('', (req, res) => {
   res.send('Hello Event Bus');
@@ -13,6 +13,8 @@ app.get('', (req, res) => {
 
 app.post('/events', (req, res) => {
   const event = req.body;
+
+  events.push(event);
 
   axios.post('http://localhost:4000/events', event).catch((err) => {
     console.log('Error occurred while posting to posts service:', err.message);
@@ -31,6 +33,10 @@ app.post('/events', (req, res) => {
   });
 
   res.send({ status: 'OK' });
+});
+
+app.get('/events', (req, res) => {
+  res.send(events);
 });
 
 app.listen(4005, () => {
