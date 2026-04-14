@@ -26,6 +26,10 @@ app.post('/events', (req, res) => {
     console.log('Error occurred while posting to queries service:', err.message);
   });
 
+  axios.post('http://localhost:4003/events', event).catch((err) => {
+    console.log('Error occurred while posting to moderation service:', err.message);
+  });
+
   res.send({ status: 'OK' });
 });
 

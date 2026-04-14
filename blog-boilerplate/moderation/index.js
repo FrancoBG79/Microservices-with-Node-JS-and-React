@@ -11,8 +11,22 @@ app.get('', (req, res) => {
   res.send('Hello Moderation');
 });
 
-app.get('/events', (req, res) => {
-  res.send('this is events');
+app.post('/events', async (req, res) => {
+  const { type, data } = req.body;
+
+  if (type === 'CommentCreated') {
+    const status = data.content.includes('orange') ? 'rejected' : 'approved';
+
+    await axios.post('http://localhost:4005/events', {
+      type: 'CommentModerated',
+      data: {
+        id: data.id,
+        postId: data.postId,
+        content: data.content,
+        status,
+      },
+    });
+  }
 });
 
 
